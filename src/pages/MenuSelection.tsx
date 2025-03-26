@@ -1,6 +1,6 @@
 
 import Navbar from "@/components/layout/Navbar";
-import MenuSelectionForm from "@/components/forms/MenuSelectionForm";
+import CombinedMenuForm from "@/components/forms/CombinedMenuForm";
 
 const MenuSelection = () => {
   return (
@@ -9,7 +9,7 @@ const MenuSelection = () => {
       
       <main className="flex-1 container px-4 pt-28 pb-16">
         <div className="max-w-2xl mx-auto">
-          <MenuSelectionForm />
+          <CombinedMenuForm />
         </div>
       </main>
     </div>

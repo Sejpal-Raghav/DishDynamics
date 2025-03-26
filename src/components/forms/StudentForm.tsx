@@ -47,7 +47,7 @@ const StudentForm = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      toast.success("Student registered successfully!");
+      toast.success("Registration successful! You can now select your meal preferences.");
       setFormData({
         regNo: "",
         name: "",
@@ -57,7 +57,7 @@ const StudentForm = () => {
         messType: ""
       });
     } catch (error) {
-      toast.error("Failed to register student. Please try again.");
+      toast.error("Failed to register. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -66,11 +66,11 @@ const StudentForm = () => {
   const messList = ["North Campus Mess", "South Campus Mess", "Main Block Mess", "Women's Hostel Mess"];
 
   return (
-    <BlurCard variant="elevated" className="w-full max-w-2xl mx-auto p-8">
+    <BlurCard variant="elevated" className="w-full max-w-2xl mx-auto p-8 bg-card/50">
       <div className="space-y-2 mb-6">
         <div className="chip">Registration Form</div>
         <h2 className="heading-2">Student Registration</h2>
-        <p className="body-text">Register for mess services with your student details</p>
+        <p className="body-text">Register yourself for mess services with your details</p>
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -174,7 +174,7 @@ const StudentForm = () => {
           disabled={loading}
           className="w-full md:w-auto bg-primary hover:bg-primary/90 transition-all"
         >
-          {loading ? "Registering..." : "Register Student"}
+          {loading ? "Registering..." : "Register"}
         </Button>
       </form>
     </BlurCard>

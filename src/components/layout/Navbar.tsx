@@ -20,7 +20,6 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Register", path: "/register" },
     { name: "Menu Selection", path: "/menu-selection" },
-    { name: "Suggestions", path: "/suggestion" },
     { name: "Dashboard", path: "/dashboard" }
   ];
 
@@ -28,7 +27,7 @@ const Navbar = () => {
     <nav 
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6", 
-        scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+        scrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-background/50"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -36,7 +35,7 @@ const Navbar = () => {
           to="/" 
           className="text-primary font-semibold text-xl hover:opacity-80 transition-opacity"
         >
-          MessMaster
+          Dish Dynamics
         </Link>
         
         <ul className="hidden md:flex items-center space-x-8">
@@ -61,7 +60,6 @@ const Navbar = () => {
         </ul>
 
         <div className="md:hidden">
-          {/* Mobile menu button would go here */}
           <button
             className="w-10 h-10 flex items-center justify-center rounded-full bg-secondary/80"
             aria-label="Open Menu"
