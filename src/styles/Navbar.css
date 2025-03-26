@@ -1,0 +1,126 @@
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: all 0.3s ease;
+  padding: 1rem 1.5rem;
+}
+
+.navbar-scrolled {
+  background-color: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-logo {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-logo:hover {
+  opacity: 0.8;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.navbar-link {
+  margin-left: 2rem;
+}
+
+.navbar-link a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  opacity: 0.7;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0.25rem;
+  position: relative;
+}
+
+.navbar-link a:hover {
+  opacity: 1;
+}
+
+.navbar-link-active {
+  color: var(--primary) !important;
+  opacity: 1 !important;
+}
+
+.navbar-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  border-radius: 2px;
+  animation: scaleIn 0.3s ease forwards;
+}
+
+.navbar-mobile-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--secondary);
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-mobile-button span {
+  width: 1.25rem;
+  height: 2px;
+  background-color: var(--foreground);
+  border-radius: 2px;
+  position: relative;
+}
+
+.navbar-mobile-button span::before,
+.navbar-mobile-button span::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: var(--foreground);
+  border-radius: 2px;
+}
+
+.navbar-mobile-button span::before {
+  top: -6px;
+}
+
+.navbar-mobile-button span::after {
+  bottom: -6px;
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+  
+  .navbar-mobile-button {
+    display: flex;
+  }
+}

@@ -1,23 +1,28 @@
 
-import { motion } from "framer-motion";
+import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import CombinedMenuForm from "@/components/forms/CombinedMenuForm";
+import "../styles/Page.css";
 
 const MenuSelection = () => {
+  // Add a fade-in effect when the component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.classList.add("animate-in");
+    
+    return () => {
+      document.body.classList.remove("animate-in");
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="page">
       <Navbar />
-      
-      <motion.main 
-        className="flex-1 container px-4 pt-28 pb-16"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="max-w-2xl mx-auto">
+      <main className="page-main">
+        <div className="max-width-2xl">
           <CombinedMenuForm />
         </div>
-      </motion.main>
+      </main>
     </div>
   );
 };
