@@ -1,0 +1,107 @@
+
+/* Welcome Section */
+.welcome-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.welcome-section .heading-1 {
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--primary) 0%, #64a5ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  animation: fadeIn 1s ease-out;
+}
+
+.welcome-section .body-text {
+  font-size: 1.125rem;
+  max-width: 600px;
+  animation: fadeIn 1s ease-out 0.2s both;
+}
+
+/* Button Showcase */
+.button-showcase, .card-showcase {
+  margin-top: 3rem;
+  animation: fadeIn 1s ease-out 0.4s both;
+}
+
+.button-showcase .heading-3, .card-showcase .heading-3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Card Showcase */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card-button {
+  margin-top: 1rem;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 134, 255, 0.1);
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+@media (max-width: 640px) {
+  .button-grid, .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .welcome-section {
+    padding: 1rem;
+  }
+}
+
+/* Animation for staggered appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(58, 134, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(58, 134, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(58, 134, 255, 0);
+  }
+}
