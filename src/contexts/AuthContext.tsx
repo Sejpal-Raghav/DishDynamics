@@ -15,6 +15,7 @@ interface AuthContextType {
   login: (token: string, user: User) => void;
   logout: () => void;
   isAdmin: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
   isAdmin: false,
+  loading: true,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -31,6 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -44,6 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(true);
       setIsAdmin(parsedUser.role === "admin");
     }
+    
+    // Set loading to false after checking authentication
+    setLoading(false);
   }, []);
 
   const login = (token: string, user: User) => {
@@ -73,6 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         isAdmin,
+        loading,
       }}
     >
       {children}

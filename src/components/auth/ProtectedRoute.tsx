@@ -9,7 +9,12 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, adminOnly = false }: ProtectedRouteProps) => {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return <div className="loading-container">Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
