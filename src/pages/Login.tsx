@@ -6,12 +6,10 @@ import { toast } from "sonner";
 import "../styles/Page.css";
 import "../styles/Forms.css";
 
-const Register = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,47 +31,31 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate form data
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-    
-    if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
-      return;
-    }
-    
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/auth/register", {
+      const response = await fetch("http://localhost:5000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || "Login failed");
       }
 
       // Save token and user data to localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      toast.success("Registration successful!");
+      toast.success("Login successful!");
       navigate("/dashboard");
     } catch (error: any) {
-      toast.error(error.message || "Registration failed");
+      toast.error(error.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -86,25 +68,11 @@ const Register = () => {
         <div className="max-width-2xl">
           <div className="form-container">
             <div className="form-header">
-              <h2 className="heading-2">Create an Account</h2>
-              <p className="body-text">Sign up to start using our services</p>
+              <h2 className="heading-2">Login to Your Account</h2>
+              <p className="body-text">Enter your credentials to access your account</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="form-group">
-                <label htmlFor="username" className="form-label">Username</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder="Choose a username"
-                  required
-                />
-              </div>
-
               <div className="form-group">
                 <label htmlFor="email" className="form-label">Email</label>
                 <input
@@ -128,23 +96,15 @@ const Register = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="form-input"
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="form-input"
-                  placeholder="Confirm your password"
-                  required
-                />
+              <div className="flex justify-between">
+                <Link to="/forgot-password" className="text-primary hover:underline">
+                  Forgot password?
+                </Link>
               </div>
 
               <button
@@ -152,14 +112,14 @@ const Register = () => {
                 className="form-button w-full"
                 disabled={loading}
               >
-                {loading ? "Signing up..." : "Sign Up"}
+                {loading ? "Logging in..." : "Login"}
               </button>
 
               <div className="text-center">
                 <p>
-                  Already have an account?{" "}
-                  <Link to="/login" className="text-primary hover:underline">
-                    Login
+                  Don't have an account?{" "}
+                  <Link to="/register" className="text-primary hover:underline">
+                    Sign up
                   </Link>
                 </p>
               </div>
@@ -171,4 +131,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

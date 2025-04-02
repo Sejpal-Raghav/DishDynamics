@@ -1,11 +1,13 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
 import "../../styles/Navbar.css";
 
 const Navbar = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+  const { isAuthenticated, isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +18,40 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "Register", path: "/register" },
-    { name: "Menu Selection", path: "/menu-selection" },
-    { name: "Dashboard", path: "/dashboard" }
-  ];
+  // Define links based on authentication state
+  const getLinks = () => {
+    const commonLinks = [
+      { name: "Home", path: "/" },
+    ];
+
+    const guestLinks = [
+      { name: "Login", path: "/login" },
+      { name: "Register", path: "/register" },
+    ];
+
+    const userLinks = [
+      { name: "Menu Selection", path: "/menu-selection" },
+      { name: "Dashboard", path: "/dashboard" },
+    ];
+
+    const adminLinks = [
+      { name: "Admin Dashboard", path: "/admin" },
+    ];
+
+    if (!isAuthenticated) {
+      return [...commonLinks, ...guestLinks];
+    }
+
+    return isAdmin 
+      ? [...commonLinks, ...userLinks, ...adminLinks]
+      : [...commonLinks, ...userLinks];
+  };
+
+  const links = getLinks();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
@@ -41,6 +71,14 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          
+          {isAuthenticated && (
+            <li className="navbar-link">
+              <button onClick={handleLogout} className="navbar-button">
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
 
         <button className="navbar-mobile-button" aria-label="Open Menu">

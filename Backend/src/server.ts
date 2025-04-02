@@ -1,8 +1,12 @@
+
 import express, { Application } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes";
+import authRoutes from "./routes/authRoutes";
+import menuItemRoutes from "./routes/menuItemRoutes";
+import menuSelectionRoutes from "./routes/menuSelectionRoutes";
 
 dotenv.config();
 
@@ -22,7 +26,11 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
 
+// Routes
 app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/menu-items", menuItemRoutes);
+app.use("/menu-selections", menuSelectionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

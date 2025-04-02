@@ -3,116 +3,124 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 50;
+  width: 100%;
+  padding: 1rem 0;
+  z-index: 100;
   transition: all 0.3s ease;
-  padding: 1rem 1.5rem;
 }
 
 .navbar-scrolled {
-  background-color: rgba(30, 30, 30, 0.8);
+  background-color: rgba(16, 16, 16, 0.85);
   backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 0;
 }
 
 .navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  max-width: 1440px;
+  padding: 0 2rem;
+  margin: 0 auto;
 }
 
 .navbar-logo {
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
   text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.navbar-logo:hover {
-  opacity: 0.8;
+  letter-spacing: -0.025em;
 }
 
 .navbar-links {
   display: flex;
-  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
 .navbar-link {
-  margin-left: 2rem;
-}
-
-.navbar-link a {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--foreground);
-  opacity: 0.7;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  padding: 0.5rem 0.25rem;
   position: relative;
 }
 
-.navbar-link a:hover {
-  opacity: 1;
+.navbar-link a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  font-size: 1rem;
 }
 
+.navbar-link a:hover,
 .navbar-link-active {
-  color: var(--primary) !important;
-  opacity: 1 !important;
+  color: white !important;
 }
 
 .navbar-link-active::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -5px;
   left: 0;
   width: 100%;
   height: 2px;
   background-color: var(--primary);
-  border-radius: 2px;
-  animation: scaleIn 0.3s ease forwards;
+  border-radius: 1px;
 }
 
 .navbar-mobile-button {
-  width: 2.5rem;
-  height: 2.5rem;
   display: none;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: var(--secondary);
+  background: none;
   border: none;
   cursor: pointer;
-}
-
-.navbar-mobile-button span {
-  width: 1.25rem;
-  height: 2px;
-  background-color: var(--foreground);
-  border-radius: 2px;
+  width: 40px;
+  height: 40px;
   position: relative;
 }
 
+.navbar-mobile-button span,
 .navbar-mobile-button span::before,
 .navbar-mobile-button span::after {
-  content: '';
+  display: block;
   position: absolute;
-  width: 100%;
   height: 2px;
-  background-color: var(--foreground);
+  width: 24px;
+  background-color: white;
   border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.navbar-mobile-button span {
+  top: 19px;
+  left: 8px;
 }
 
 .navbar-mobile-button span::before {
-  top: -6px;
+  content: '';
+  top: -8px;
+  left: 0;
 }
 
 .navbar-mobile-button span::after {
-  bottom: -6px;
+  content: '';
+  top: 8px;
+  left: 0;
+}
+
+.navbar-button {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.navbar-button:hover {
+  color: white;
 }
 
 @media (max-width: 768px) {
@@ -121,6 +129,53 @@
   }
   
   .navbar-mobile-button {
-    display: flex;
+    display: block;
   }
+}
+
+/* Mobile menu styles (you can implement later) */
+.navbar-mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 2rem 2rem;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.navbar-mobile-menu.open {
+  transform: translateX(0);
+}
+
+.navbar-mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-mobile-menu-link a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-mobile-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
