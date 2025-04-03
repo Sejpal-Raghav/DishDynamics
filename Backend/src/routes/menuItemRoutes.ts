@@ -7,18 +7,20 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
 // Middleware to verify admin role
-const requireAdmin = async (req: Request, res: Response, next: express.NextFunction) => {
+const requireAdmin = (req: Request, res: Response, next: express.NextFunction): void => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     
     if (!token) {
-      return res.status(401).json({ message: "No token provided" });
+      res.status(401).json({ message: "No token provided" });
+      return;
     }
     
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string, role: string };
     
     if (decoded.role !== "admin") {
-      return res.status(403).json({ message: "Admin access required" });
+      res.status(403).json({ message: "Admin access required" });
+      return;
     }
     
     next();

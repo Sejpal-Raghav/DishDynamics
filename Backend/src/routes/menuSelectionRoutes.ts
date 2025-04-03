@@ -16,12 +16,13 @@ interface AuthenticatedRequest extends Request {
 }
 
 // Middleware to verify user authentication
-const authenticateUser = async (req: AuthenticatedRequest, res: Response, next: express.NextFunction) => {
+const authenticateUser = (req: AuthenticatedRequest, res: Response, next: express.NextFunction): void => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     
     if (!token) {
-      return res.status(401).json({ message: "No token provided" });
+      res.status(401).json({ message: "No token provided" });
+      return;
     }
     
     const decoded = jwt.verify(token, JWT_SECRET) as { id: string, role: string };
@@ -35,10 +36,11 @@ const authenticateUser = async (req: AuthenticatedRequest, res: Response, next: 
 };
 
 // Middleware to verify admin role
-const requireAdmin = async (req: AuthenticatedRequest, res: Response, next: express.NextFunction) => {
+const requireAdmin = (req: AuthenticatedRequest, res: Response, next: express.NextFunction): void => {
   try {
     if (req.body.userRole !== "admin") {
-      return res.status(403).json({ message: "Admin access required" });
+      res.status(403).json({ message: "Admin access required" });
+      return;
     }
     
     next();
