@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { toast } from "sonner";
+import apiClient from "@/lib/api";
+import useAuth from "@/hooks/useAuth";
 import "../styles/Page.css";
 import "../styles/Forms.css";
 
@@ -15,6 +16,7 @@ const Register = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Add a fade-in effect when the component mounts
   useEffect(() => {
@@ -48,32 +50,19 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
+      const response = await apiClient.post("/auth/register", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
-      // Save token and user data to localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // Save token and user data using the Auth Context
+      login(response.data.token, response.data.user);
 
       toast.success("Registration successful!");
       navigate("/dashboard");
     } catch (error: any) {
-      toast.error(error.message || "Registration failed");
+      toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }

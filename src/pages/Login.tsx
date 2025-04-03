@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import { toast } from "sonner";
+import apiClient from "@/lib/api";
+import useAuth from "@/hooks/useAuth";
 import "../styles/Page.css";
 import "../styles/Forms.css";
 
@@ -13,6 +14,7 @@ const Login = () => {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Add a fade-in effect when the component mounts
   useEffect(() => {
@@ -34,28 +36,15 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      // Save token and user data to localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      const response = await apiClient.post("/auth/login", formData);
+      
+      // Use the auth context login method
+      login(response.data.token, response.data.user);
 
       toast.success("Login successful!");
       navigate("/dashboard");
     } catch (error: any) {
-      toast.error(error.message || "Login failed");
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
