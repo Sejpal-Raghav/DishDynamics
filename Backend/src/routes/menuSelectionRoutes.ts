@@ -6,8 +6,17 @@ import jwt from "jsonwebtoken";
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
+// Add the userId and userRole to the request body
+interface AuthenticatedRequest extends Request {
+  body: {
+    userId?: string;
+    userRole?: string;
+    [key: string]: any;
+  };
+}
+
 // Middleware to verify user authentication
-const authenticateUser = async (req: Request, res: Response, next: Function) => {
+const authenticateUser = async (req: AuthenticatedRequest, res: Response, next: express.NextFunction) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     
@@ -26,7 +35,7 @@ const authenticateUser = async (req: Request, res: Response, next: Function) => 
 };
 
 // Middleware to verify admin role
-const requireAdmin = async (req: Request, res: Response, next: Function) => {
+const requireAdmin = async (req: AuthenticatedRequest, res: Response, next: express.NextFunction) => {
   try {
     if (req.body.userRole !== "admin") {
       return res.status(403).json({ message: "Admin access required" });
@@ -39,7 +48,7 @@ const requireAdmin = async (req: Request, res: Response, next: Function) => {
 };
 
 // Get user's menu selections
-router.get("/my-selections", authenticateUser, async (req: Request, res: Response) => {
+router.get("/my-selections", authenticateUser, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { mealType, date } = req.query;
     const query: any = { userId: req.body.userId };
@@ -67,7 +76,7 @@ router.get("/my-selections", authenticateUser, async (req: Request, res: Respons
 });
 
 // Submit a menu selection
-router.post("/submit", authenticateUser, async (req: Request, res: Response) => {
+router.post("/submit", authenticateUser, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { mealType, date, selectedItems } = req.body;
     
@@ -140,7 +149,7 @@ router.post("/submit", authenticateUser, async (req: Request, res: Response) => 
 });
 
 // Get all menu selections (admin only)
-router.get("/all", authenticateUser, requireAdmin, async (req: Request, res: Response) => {
+router.get("/all", authenticateUser, requireAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { mealType, date } = req.query;
     const query: any = {};
