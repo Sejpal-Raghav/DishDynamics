@@ -50,11 +50,19 @@ const Register = () => {
     setLoading(true);
 
     try {
+      console.log("Attempting to register with:", {
+        username: formData.username,
+        email: formData.email,
+        password: "********", // Don't log actual password
+      });
+      
       const response = await apiClient.post("/auth/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
       });
+
+      console.log("Registration response:", response.data);
 
       // Save token and user data using the Auth Context
       login(response.data.token, response.data.user);
@@ -62,7 +70,13 @@ const Register = () => {
       toast.success("Registration successful!");
       navigate("/dashboard");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Registration failed");
+      console.error("Registration error:", error);
+      
+      const errorMessage = error.response?.data?.message || 
+                         error.message || 
+                         "Registration failed";
+                         
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -80,6 +94,7 @@ const Register = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              
               <div className="form-group">
                 <label htmlFor="username" className="form-label">Username</label>
                 <input
